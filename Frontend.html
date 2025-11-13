@@ -1,0 +1,689 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BookYourLab - Replica</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--teal:#0e8b93;--dark:#0b6b72;--accent:#00d4a6;--bg:#f5f7f8}
+    *{box-sizing:border-box}
+    body{font-family:'Poppins',sans-serif;margin:0;color:#222;background:var(--bg);-webkit-font-smoothing:antialiased}
+
+    .topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 36px;background:#fff;border-bottom:4px solid rgba(0,0,0,0.03)}
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo{font-weight:800;color:var(--teal);font-size:28px;display:flex;align-items:center}
+    .logo .box{width:22px;height:16px;background:var(--teal);border-radius:3px;margin-left:8px}
+
+    .search{flex:1;margin:0 24px;display:flex;align-items:center}
+    .search input{width:100%;padding:12px 16px;border-radius:6px;border:1px solid #e6eef0;font-size:14px}
+    .top-actions{display:flex;align-items:center;gap:18px}
+    .top-actions button{background:#fff;border:1px solid #e6eef0;padding:10px 14px;border-radius:8px}
+    .upload{border:2px solid var(--teal);color:var(--dark);font-weight:600}
+
+    .mainnav{display:flex;gap:12px;padding:16px 36px;background:var(--teal);align-items:center}
+    .navbtn{background:#0f7f87;color:#fff;padding:10px 18px;border-radius:6px;border:none;font-weight:600}
+    .navbtn.ghost{background:transparent;border:2px solid rgba(255,255,255,0.12)}
+    .nav-left{display:flex;gap:8px;align-items:center}
+
+    .hero{position:relative;display:flex;align-items:stretch;overflow:hidden}
+    .hero-left{flex:1;background:linear-gradient(135deg,#0d8790 0%, #0e7f86 60%);padding:80px 90px 140px 90px;min-height:550px;display:flex;flex-direction:column;justify-content:center}
+    .eyebrow{color:rgba(255,255,255,0.9);font-weight:600;margin-bottom:8px}
+    h1{font-size:72px;line-height:0.95;margin:0 0 18px 0;font-weight:800;color:#fff}
+    h1 span{font-weight:800}
+    p.lead{max-width:520px;color:rgba(255,255,255,0.92);font-size:16px;line-height:1.8;margin-bottom:28px}
+    .cta{display:inline-block;background:#fff;color:var(--teal);padding:12px 22px;border-radius:12px;font-weight:700;text-decoration:none}
+
+    .hero-left:after{content:'';position:absolute;right:-180px;top:0;width:380px;height:120%;background:rgba(255,255,255,0.08);transform:skewX(-28deg)}
+
+    .hero-right{width:55%;min-width:540px;background:#f3f3f3;display:flex;align-items:center;justify-content:center;padding:36px 56px 80px 36px}
+    .ctimage{max-width:100%;height:auto;display:block;filter:grayscale(0.05);box-shadow:0 8px 40px rgba(0,0,0,0.08);border-radius:6px}
+
+    .hero .bottom-wave{position:absolute;left:0;right:0;bottom:-30px;height:120px;background:white;border-top-left-radius:60% 45px;border-top-right-radius:60% 45px}
+
+    .phone-bubble{position:fixed;right:26px;bottom:22px;background:var(--accent);width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 26px rgba(0,0,0,0.18);z-index:60}
+    .phone-bubble:after{content:'°E';font-size:26px;color:#fff}
+
+    .top-actions .phone{background:linear-gradient(90deg,#0bc1a6,#06d4a9);color:#fff;padding:10px 12px;border-radius:8px}
+    .nav-highlight{background:#fff;color:var(--teal);padding:8px 16px;border-radius:6px;color:var(--dark);font-weight:700}
+
+    .pack-card{width:260px;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 20px 40px rgba(0,0,0,0.08);transition:transform .28s ease,box-shadow .28s ease}
+    .pack-card:hover{transform:translateY(-10px);box-shadow:0 30px 60px rgba(0,0,0,0.12)}
+    .pack-card .card-image{height:190px;background-size:cover;background-position:center}
+    .pack-card.featured{width:420px;border-radius:14px}
+    .pack-card .card-body{padding:20px}
+    .pack-card .card-foot{background:var(--teal);padding:12px;text-align:center}
+    .pack-card .add{background:transparent;border:none;color:#fff;padding:8px 12px;font-weight:700;cursor:pointer}
+    .pack-card .add.big{padding:12px 24px;font-size:18px}
+
+    .ribbon{position:absolute;margin-top:14px;margin-left:14px;background:rgba(11,107,114,0.95);color:#fff;padding:6px 10px;border-radius:4px;font-weight:700}
+
+   
+    .packs-wrap{display:flex;align-items:center;gap:28px}
+    .pack-nav{background:#fff;border-radius:50%;width:44px;height:44px;border:none;box-shadow:0 6px 18px rgba(0,0,0,0.08);cursor:pointer}
+
+   
+    section[style*="Most Popular Tests"] .card{transition:transform .24s ease}
+    .card:hover{transform:translateY(-8px)}
+
+ 
+    .habit-card{transition:transform .22s ease,box-shadow .22s ease}
+    .habit-card:hover{transform:translateY(-8px);box-shadow:0 18px 34px rgba(0,0,0,0.12)}
+
+    footer{background:var(--dark);color:#fff}
+
+    
+    @media (max-width:1100px){
+      .hero-right{display:none}
+      h1{font-size:42px}
+      .hero-left{padding:48px}
+      .pack-card.featured{width:340px}
+    }
+    @media (max-width:900px){
+      .packs-wrap{overflow:auto;padding:12px 8px;scroll-behavior:smooth}
+      .pack-card{min-width:240px}
+    }
+    @media (max-width:680px){
+      .search{display:none}
+      .top-actions .text{display:none}
+      .mainnav{overflow:auto}
+      .pack-card{min-width:200px}
+      .pack-card.featured{display:none}
+    }
+
+ 
+    .site-footer{background:var(--teal);color:#fff;padding:56px 36px}
+    .footer-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:28px;max-width:1100px;margin:0 auto}
+    .footer-grid h4{color:#00d4a6;margin-bottom:12px}
+    .footer-grid a{display:block;color:#d9f7ef;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.06);text-decoration:none}
+    @media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:520px){.footer-grid{grid-template-columns:1fr}}
+
+  
+    .center{display:flex;align-items:center;justify-content:center}
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">Book<span style="color:#2cc0b3">Your</span>Lab<div class="box"></div></div>
+      </div>
+      <div class="search">
+        <input placeholder="Search For Diagnostic Tests / Health Checkup / Scan">
+      </div>
+      <div class="top-actions">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="font-size:14px;color:#7b8b90">Hello, <strong style="color:#0b6b72">Sign In</strong></div>
+          <div style="font-size:14px;color:#7b8b90">Location <strong style="color:#0b6b72">Mumbai</strong></div>
+        </div>
+        <button class="upload">Upload Prescription</button>
+        <button class="phone">(+91) 9090 666 333</button>
+      </div>
+    </div>
+
+    <nav class="mainnav">
+      <div class="nav-left">
+        <button class="navbtn">☰ Diagnostic Tests</button>
+        <button class="navbtn nav-highlight">Preventive Health Check</button>
+        <button class="navbtn ghost">Health Scan</button>
+        <button class="navbtn ghost">Deal Of The Day</button>
+        <button class="navbtn ghost">Subscription</button>
+        <button class="navbtn ghost">COVID-19</button>
+        <button class="navbtn ghost">Customer Service</button>
+      </div>
+      <div style="flex:1"></div>
+      <div style="display:flex;gap:12px;align-items:center">
+        <div style="background:#fff;padding:8px;border-radius:6px;color:var(--teal);font-weight:700">WhatsApp</div>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-left">
+      <div class="eyebrow">Best PET CT Services</div>
+      <h1>Best PET CT <br><span>Services</span></h1>
+      <h1 style="font-size:44px;margin-top:8px;">At Affordable Prices</h1>
+      <p class="lead">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.</p>
+      <a class="cta" href="#">Check Out Now</a>
+      <div class="bottom-wave"></div>
+    </div>
+    <div class="hero-right">
+      <img src="C:/Users/jatin/Desktop/geek-cart/ct.png" alt="CT Machine" class="ctimage">
+    </div>
+  </section>
+
+  <section class="packages" aria-label="Popular Health Check Packs" style="padding:80px 36px 140px;background:#fff;">
+    <div style="text-align:center;max-width:900px;margin:0 auto 36px;">
+      <div style="color:#6c6c6c;font-weight:700;letter-spacing:0.6px;margin-bottom:8px">Health Packages</div>
+      <h2 style="font-size:36px;color:var(--dark);margin:0;font-weight:800">Popular Health Check Packs</h2>
+    </div>
+
+    <div class="packs-wrap" style="display:flex;align-items:center;justify-content:center;gap:36px;position:relative">
+
+      <button class="pack-nav left" aria-label="previous pack">‹</button>
+
+      <div class="pack-card small left-card">
+        <div class="ribbon">60% Off</div>
+        <div class="card-image" style="background-image:url('C:/Users/jatin/Desktop/geek-cart/offfer1.png');"></div>
+        <div class="card-body">
+          <h3>Full Body Health Checkup</h3>
+          <div class="tests">79 Tests</div>
+          <div class="price"><span class="orig">₹ 3000/-</span><span class="now">₹ 1300/-</span></div>
+        </div>
+        <div class="card-foot"><button class="add">Add To Cart 🛒</button></div>
+      </div>
+
+      <div class="pack-card featured">
+        <div class="ribbon">60% Off</div>
+        <div class="card-image featured-img" style="background-image:url('C:/Users/jatin/Desktop/geek-cart/offer2.png');"></div>
+        <div class="card-body">
+          <h2>Full Body Health Checkup</h2>
+          <div class="tests">79 Tests</div>
+          <div class="price"><span class="orig">₹ 3000/-</span><span class="now">₹ 1300/-</span></div>
+        </div>
+        <div class="card-foot"><button class="add big">Add To Cart 🛒</button></div>
+      </div>
+
+      <div class="pack-card small right-card">
+        <div class="ribbon">60% Off</div>
+        <div class="card-image" style="background-image:url('C:/Users/jatin/Desktop/geek-cart/offer3.png');"></div>
+        <div class="card-body">
+          <h3>Full Body Health Checkup</h3>
+          <div class="tests">79 Tests</div>
+          <div class="price"><span class="orig">₹ 3000/-</span><span class="now">₹ 1300/-</span></div>
+        </div>
+        <div class="card-foot"><button class="add">Add To Cart 🛒</button></div>
+      </div>
+
+      <button class="pack-nav right" aria-label="next pack">›</button>
+
+    </div>
+
+    <div style="text-align:center;margin-top:28px"><span class="pager">1 / 1</span></div>
+
+  </section>
+
+
+<section class="suggest" style="padding:90px 36px;background:#fff;">
+  <div style="text-align:center;max-width:900px;margin:0 auto 56px;">
+    <div style="color:#6c6c6c;font-weight:700;margin-bottom:6px">Health Checkups</div>
+    <h2 style="font-size:36px;font-weight:800;color:var(--dark);margin:0 0 14px;">Let Us Suggest You The Best</h2>
+    <p style="color:#555;font-size:17px;line-height:1.6;max-width:780px;margin:0 auto;">Select a body organ and we’ll suggest the best available tests to help in precise diagnosis of the problem.</p>
+  </div>
+
+  <div style="display:flex;gap:36px;justify-content:center;align-items:flex-start;flex-wrap:wrap;">
+
+    <div style="width:420px;background:#0e8b93;border-radius:18px;overflow:hidden;padding:26px;position:relative;">
+      <img src="C:/Users/jatin/Desktop/geek-cart/body.png" style="width:100%;opacity:0.8;">
+      <div style="position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);background:#fff;padding:6px 18px;border-radius:8px;color:var(--dark);font-weight:700;font-size:18px;">Heart</div>
+    </div>
+
+    <div style="flex:1;min-width:420px;background:#fff;border:2px solid #cfeef1;border-radius:14px;padding:36px;box-shadow:0 8px 18px rgba(0,0,0,0.06);">
+
+      <div style="display:flex;gap:20px;margin-bottom:26px;">
+        <select style="flex:1;padding:14px;border:1px solid #d9e7ea;border-radius:8px;font-size:16px;color:#555;">
+          <option>Male</option>
+          <option>Female</option>
+        </select>
+        <select style="flex:1;padding:14px;border:1px solid #d9e7ea;border-radius:8px;font-size:16px;color:#555;">
+          <option>Below 30 Years</option>
+          <option>30–45 Years</option>
+          <option>45+ Years</option>
+        </select>
+      </div>
+
+      <div style="font-weight:700;color:#333;font-size:20px;margin-bottom:18px;text-align:center;">Commonly faced issues related Heart</div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:26px;justify-content:center;">
+        <span class="tag">Chest Pain</span>
+        <span class="tag">Dizziness</span>
+        <span class="tag">Shortness Of Breath</span>
+        <span class="tag">Fatigue</span>
+        <span class="tag">Pressure</span>
+      </div>
+
+      <div style="font-weight:700;color:#333;font-size:20px;margin:20px 0;text-align:center;">Suggested Preventive health profile</div>
+
+      <div class="test-box" style="background:#fdfefe;border-radius:12px;padding:20px 26px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;border-left:5px solid #0ec2a3;">
+        <div style="display:flex;align-items:center;gap:16px;font-size:20px;font-weight:700;color:#333;">
+          <span>🩺</span> Test One
+        </div>
+        <button style="background:#0e8b93;color:#fff;padding:10px 18px;border-radius:8px;border:none;font-weight:600;cursor:pointer;">Know More</button>
+      </div>
+
+      <div class="test-box" style="background:#fdfefe;border-radius:12px;padding:20px 26px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;border-left:5px solid #0ec2a3;">
+        <div style="display:flex;align-items:center;gap:16px;font-size:20px;font-weight:700;color:#333;">
+          <span>🩺</span> Test One
+        </div>
+        <button style="background:#0e8b93;color:#fff;padding:10px 18px;border-radius:8px;border:none;font-weight:600;cursor:pointer;">Know More</button>
+      </div>
+
+      <div class="test-box" style="background:#fdfefe;border-radius:12px;padding:20px 26px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;border-left:5px solid #0ec2a3;">
+        <div style="display:flex;align-items:center;gap:16px;font-size:20px;font-weight:700;color:#333;">
+          <span>🩺</span> Test One
+        </div>
+        <button style="background:#0e8b93;color:#fff;padding:10px 18px;border-radius:8px;border:none;font-weight:600;cursor:pointer;">Know More</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section style="padding:90px 36px;background:#fff;display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start;justify-content:center;">
+
+
+  <div style="display:grid;grid-template-columns:repeat(2,260px);gap:26px;">
+
+    <div style="background:#fff;border-radius:16px;padding:32px;text-align:center;box-shadow:0 8px 26px rgba(0,0,0,0.06);">
+      <img src="C:/Users/jatin/Desktop/geek-cart/e1.png" style="width:80px;margin-bottom:16px;">
+      <h3 style="color:#333;font-size:20px;font-weight:700;margin:0 0 8px;">600+ Different Tests</h3>
+      <p style="color:#777;margin:0;font-size:15px;">Experienced Professionals</p>
+    </div>
+
+    <div style="background:#fff;border-radius:16px;padding:32px;text-align:center;box-shadow:0 8px 26px rgba(0,0,0,0.06);">
+      <img src="C:/Users/jatin/Desktop/geek-cart/e2.png" style="width:80px;margin-bottom:16px;">
+      <h3 style="color:#333;font-size:20px;font-weight:700;margin:0 0 8px;">High-End Technology</h3>
+      <p style="color:#777;margin:0;font-size:15px;">State-Of-The-Art Technology</p>
+    </div>
+
+    <div style="background:#fff;border-radius:16px;padding:32px;text-align:center;box-shadow:0 8px 26px rgba(0,0,0,0.06);">
+      <img src="C:/Users/jatin/Desktop/geek-cart/e3.png" style="width:80px;margin-bottom:16px;">
+      <h3 style="color:#333;font-size:20px;font-weight:700;margin:0 0 8px;">Free Home Sampling</h3>
+      <p style="color:#777;margin:0;font-size:15px;">Sampling At Your Address</p>
+    </div>
+
+    <div style="background:#fff;border-radius:16px;padding:32px;text-align:center;box-shadow:0 8px 26px rgba(0,0,0,0.06);">
+      <img src="C:/Users/jatin/Desktop/geek-cart/e4.png" style="width:80px;margin-bottom:16px;">
+      <h3 style="color:#333;font-size:20px;font-weight:700;margin:0 0 8px;">Patient Support</h3>
+      <p style="color:#777;margin:0;font-size:15px;">Advice And Recommendations</p>
+    </div>
+
+  </div>
+
+  <div style="max-width:520px;">
+    <h3 style="color:#333;font-size:22px;font-weight:700;margin:0 0 6px;">Why Choose Us</h3>
+    <h2 style="color:var(--dark);font-size:32px;font-weight:800;line-height:1.3;margin:0 0 22px;">We'll Ensure You Always<br>Get The Best Results</h2>
+
+    <p style="color:#444;font-size:16px;line-height:1.6;margin-bottom:18px;">Your full-service lab for clinical trials. Our mission is to ensure the generation of accurate.<br>Novalab is registered with the following governmental agencies:</p>
+
+    <ul style="color:#333;line-height:1.7;font-size:15px;margin-bottom:28px;">
+      <li>Drug Enforcement Agency (DEA) No. RG0105216</li>
+      <li>Food and Drug Administration (FDA) No. 2182801</li>
+      <li>International Standards Organization (ISO9001 and ISO17025)</li>
+      <li>United States Department of Agriculture (USDA) No. 35-R-034</li>
+    </ul>
+
+    <button style="background:#0ec2a3;color:#fff;padding:12px 24px;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;">View List</button>
+  </div>
+
+</section>
+
+<section style="padding:80px 36px;background:#fff;">
+  <div style="text-align:center;max-width:900px;margin:0 auto 40px;">
+    <div style="color:#6c6c6c;font-weight:700;margin-bottom:6px;">Our Tests</div>
+    <h2 style="font-size:36px;font-weight:800;color:var(--dark);margin:0;">Most Popular Tests</h2>
+  </div>
+
+  <div style="display:flex;justify-content:center;align-items:flex-start;gap:36px;position:relative;flex-wrap:wrap;">
+
+    <button style="width:46px;height:46px;border-radius:50%;border:none;background:#fff;box-shadow:0 6px 18px rgba(0,0,0,0.10);font-size:22px;cursor:pointer;">‹</button>
+
+   
+    <div style="width:360px;background:#fff;border-radius:16px;box-shadow:0 10px 24px rgba(0,0,0,0.08);overflow:hidden;">
+      <img src="C:/Users/jatin/Desktop/geek-cart/t1.png" style="width:100%;height:220px;object-fit:cover;">
+      <div style="padding:22px 24px;">
+        <h3 style="color:#333;font-size:22px;margin:0 0 10px;font-weight:700;">Microbiology Tests</h3>
+        <p style="color:#777;line-height:1.6;font-size:15px;margin:0 0 18px;">Capitalize On Low Hanging Fruit To Identify A Ballpark Value Added Activity To Beta Test.</p>
+        <a href="#" style="color:#0bc1a6;font-weight:700;font-size:14px;text-decoration:none;">FIND OUT MORE →</a>
+      </div>
+    </div>
+
+    <div style="width:360px;background:#fff;border-radius:16px;box-shadow:0 10px 24px rgba(0,0,0,0.08);overflow:hidden;">
+      <img src="C:/Users/jatin/Desktop/geek-cart/t2.png" style="width:100%;height:220px;object-fit:cover;">
+      <div style="padding:22px 24px;">
+        <h3 style="color:#333;font-size:22px;margin:0 0 10px;font-weight:700;">Histopathology Tests</h3>
+        <p style="color:#777;line-height:1.6;font-size:15px;margin:0 0 18px;">Capitalize On Low Hanging Fruit To Identify A Ballpark Value Added Activity To Beta Test.</p>
+        <a href="#" style="color:#0bc1a6;font-weight:700;font-size:14px;text-decoration:none;">FIND OUT MORE →</a>
+      </div>
+    </div>
+
+   
+    <div style="width:360px;background:#fff;border-radius:16px;box-shadow:0 10px 24px rgba(0,0,0,0.08);overflow:hidden;">
+      <img src="C:/Users/jatin/Desktop/geek-cart/t3.png" style="width:100%;height:220px;object-fit:cover;">
+      <div style="padding:22px 24px;">
+        <h3 style="color:#333;font-size:22px;margin:0 0 10px;font-weight:700;">Hemoglobin Tests</h3>
+        <p style="color:#777;line-height:1.6;font-size:15px;margin:0 0 18px;">Capitalize On Low Hanging Fruit To Identify A Ballpark Value Added Activity To Beta Test.</p>
+        <a href="#" style="color:#0bc1a6;font-weight:700;font-size:14px;text-decoration:none;">FIND OUT MORE →</a>
+      </div>
+    </div>
+
+    <button style="width:46px;height:46px;border-radius:50%;border:none;background:#fff;box-shadow:0 6px 18px rgba(0,0,0,0.10);font-size:22px;cursor:pointer;">›</button>
+
+  </div>
+</section>
+
+
+<section style="padding:80px 36px 120px;background:var(--teal);position:relative;color:#fff;overflow:hidden;">
+
+  <div style="text-align:center;max-width:900px;margin:0 auto 46px;">
+    <div style="color:#e0f7f8;font-weight:700;margin-bottom:6px;">Our Tests</div>
+    <h2 style="font-size:36px;font-weight:800;margin:0;">Browse Test By Habit</h2>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:28px;max-width:1200px;margin:0 auto;">
+
+  
+    <div style="background:#fff;color:#0b6b72;border-radius:16px;padding:28px 20px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.1);">
+      <img src="/mnt/data/70b219f7-0abe-4fa0-a4cb-b40f100de002.png" style="width:60px;margin-bottom:16px;">
+      <h3 style="font-size:20px;font-weight:700;margin:0;">Alcoholism</h3>
+    </div>
+
+    <div style="background:#fff;color:#0b6b72;border-radius:16px;padding:28px 20px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.1);">
+      <img src="/mnt/data/70b219f7-0abe-4fa0-a4cb-b40f100de002.png" style="width:60px;margin-bottom:16px;">
+      <h3 style="font-size:20px;font-weight:700;margin:0;">Stress</h3>
+    </div>
+
+    <div style="background:#fff;color:#0b6b72;border-radius:16px;padding:28px 20px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.1);">
+      <img src="/mnt/data/70b219f7-0abe-4fa0-a4cb-b40f100de002.png" style="width:60px;margin-bottom:16px;">
+      <h3 style="font-size:20px;font-weight:700;margin:0;">No Sleep</h3>
+    </div>
+
+    <div style="background:#fff;color:#0b6b72;border-radius:16px;padding:28px 20px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.1);">
+      <img src="/mnt/data/70b219f7-0abe-4fa0-a4cb-b40f100de002.png" style="width:60px;margin-bottom:16px;">
+      <h3 style="font-size:20px;font-weight:700;margin:0;">Zero Exercise</h3>
+    </div>
+
+    <div style="background:#fff;color:#0b6b72;border-radius:16px;padding:28px 20px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.1);">
+      <img src="/mnt/data/70b219f7-0abe-4fa0-a4cb-b40f100de002.png" style="width:60px;margin-bottom:16px;">
+      <h3 style="font-size:20px;font-weight:700;margin:0;">Junk Food</h3>
+    </div>
+
+    <div style="background:#fff;color:#0b6b72;border-radius:16px;padding:28px 20px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.1);">
+      <img src="/mnt/data/70b219f7-0abe-4fa0-a4cb-b40f100de002.png" style="width:60px;margin-bottom:16px;">
+      <h3 style="font-size:20px;font-weight:700;margin:0;">Smoking</h3>
+    </div>
+
+    <div style="background:#fff;color:#0b6b72;border-radius:16px;padding:28px 20px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.1);">
+      <img src="/mnt/data/70b219f7-0abe-4fa0-a4cb-b40f100de002.png" style="width:60px;margin-bottom:16px;">
+      <h3 style="font-size:20px;font-weight:700;margin:0;">Poor Nutrition</h3>
+    </div>
+
+    <div style="background:#fff;color:#0b6b72;border-radius:16px;padding:28px 20px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.1);">
+      <img src="/mnt/data/70b219f7-0abe-4fa0-a4cb-b40f100de002.png" style="width:60px;margin-bottom:16px;">
+      <h3 style="font-size:20px;font-weight:700;margin:0;">Poor Eating</h3>
+    </div>
+
+    <div style="background:#fff;color:#0b6b72;border-radius:16px;padding:28px 20px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.1);">
+      <img src="/mnt/data/70b219f7-0abe-4fa0-a4cb-b40f100de002.png" style="width:60px;margin-bottom:16px;">
+      <h3 style="font-size:20px;font-weight:700;margin:0;">Low Iron Diet</h3>
+    </div>
+
+    <div style="background:#fff;color:#0b6b72;border-radius:16px;padding:28px 20px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.1);">
+      <img src="/mnt/data/70b219f7-0abe-4fa0-a4cb-b40f100de002.png" style="width:60px;margin-bottom:16px;">
+      <h3 style="font-size:20px;font-weight:700;margin:0;">Anger</h3>
+    </div>
+
+    <div style="background:#fff;color:#0b6b72;border-radius:16px;padding:28px 20px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.1);">
+      <img src="/mnt/data/70b219f7-0abe-4fa0-a4cb-b40f100de002.png" style="width:60px;margin-bottom:16px;">
+      <h3 style="font-size:20px;font-weight:700;margin:0;">Heartburn</h3>
+    </div>
+
+    <div style="background:#fff;color:#0b6b72;border-radius:16px;padding:28px 20px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.1);">
+      <img src="/mnt/data/70b219f7-0abe-4fa0-a4cb-b40f100de002.png" style="width:60px;margin-bottom:16px;">
+      <h3 style="font-size:20px;font-weight:700;margin:0;">Medicine Overuse</h3>
+    </div>
+
+  </div>
+
+  <div style="text-align:center;margin-top:40px;">
+    <button style="background:#00d4a6;color:#fff;padding:14px 32px;border:none;border-radius:10px;font-size:18px;font-weight:700;cursor:pointer;">View Details</button>
+  </div>
+
+</section>
+
+<section style="padding:80px 36px;background:#fff;">
+  <div style="text-align:center;max-width:900px;margin:0 auto 40px;">
+    <div style="color:#6c6c6c;font-weight:700;margin-bottom:6px;">Our Tests</div>
+    <h2 style="font-size:36px;font-weight:800;color:var(--dark);margin:0;">Browse Test By Risks</h2>
+  </div>
+
+  <div style="display:flex;justify-content:center;align-items:flex-start;gap:36px;position:relative;flex-wrap:wrap;">
+
+    <button style="width:46px;height:46px;border-radius:50%;border:none;background:#fff;box-shadow:0 6px 18px rgba(0,0,0,0.10);font-size:22px;cursor:pointer;">‹</button>
+
+    <div style="width:360px;background:#fff;border-radius:16px;box-shadow:0 10px 24px rgba(0,0,0,0.08);overflow:hidden;">
+      <img src="C:/Users/jatin/Desktop/geek-cart/r1.png" style="width:100%;height:220px;object-fit:cover;">
+      <div style="padding:22px 24px;">
+        <h3 style="color:#333;font-size:22px;margin:0 0 10px;font-weight:700;">Diabetes</h3>
+        <p style="color:#777;line-height:1.6;font-size:15px;margin:0 0 18px;">Capitalize On Low Hanging Fruit To Identify A Ballpark Value Added Activity To Beta Test.</p>
+        <a href="#" style="color:#0bc1a6;font-weight:700;font-size:14px;text-decoration:none;">FIND OUT MORE →</a>
+      </div>
+    </div>
+
+   
+    <div style="width:360px;background:#fff;border-radius:16px;box-shadow:0 10px 24px rgba(0,0,0,0.08);overflow:hidden;">
+      <img src="C:/Users/jatin/Desktop/geek-cart/r2.png" style="width:100%;height:220px;object-fit:cover;">
+      <div style="padding:22px 24px;">
+        <h3 style="color:#333;font-size:22px;margin:0 0 10px;font-weight:700;">Heart</h3>
+        <p style="color:#777;line-height:1.6;font-size:15px;margin:0 0 18px;">Capitalize On Low Hanging Fruit To Identify A Ballpark Value Added Activity To Beta Test.</p>
+        <a href="#" style="color:#0bc1a6;font-weight:700;font-size:14px;text-decoration:none;">FIND OUT MORE →</a>
+      </div>
+    </div>
+
+
+    <div style="width:360px;background:#fff;border-radius:16px;box-shadow:0 10px 24px rgba(0,0,0,0.08);overflow:hidden;">
+      <img src="C:/Users/jatin/Desktop/geek-cart/r3.png" style="width:100%;height:220px;object-fit:cover;">
+      <div style="padding:22px 24px;">
+        <h3 style="color:#333;font-size:22px;margin:0 0 10px;font-weight:700;">Thyroid</h3>
+        <p style="color:#777;line-height:1.6;font-size:15px;margin:0 0 18px;">Capitalize On Low Hanging Fruit To Identify A Ballpark Value Added Activity To Beta Test.</p>
+        <a href="#" style="color:#0bc1a6;font-weight:700;font-size:14px;text-decoration:none;">FIND OUT MORE →</a>
+      </div>
+    </div>
+
+    <button style="width:46px;height:46px;border-radius:50%;border:none;background:#fff;box-shadow:0 6px 18px rgba(0,0,0,0.10);font-size:22px;cursor:pointer;">›</button>
+
+  </div>
+</section>
+\
+
+<section style="padding:100px 36px;background:#fff;text-align:center;position:relative;overflow:hidden;">
+  <div style="color:#6c6c6c;font-weight:700;margin-bottom:6px;">Testimonial</div>
+  <h2 style="font-size:36px;font-weight:800;color:var(--dark);margin:0 0 30px;">What Our Patients Say</h2>
+
+  <img src="/mnt/data/eb2ba202-62af-4f66-aa37-5d639be1645d.png" style="width:110px;opacity:0.35;margin-bottom:20px;">
+
+  <p style="max-width:900px;margin:0 auto 28px;color:#444;font-size:20px;line-height:1.7;font-weight:400;">
+    “In our long association with Novalab the attribute which we admire most,
+    is their passion for excellence. This passion is exemplified in a unique focus
+    for quality both in their products as well as service, patients’ convenience and comfort.“
+  </p>
+
+  <div style="font-size:22px;color:#222;font-weight:700;">Jennifer Lee</div>
+  <div style="font-size:16px;color:#666;margin-bottom:30px;">First Time Patient</div>
+
+  <div style="width:60px;height:4px;background:#0ec2a3;margin:0 auto;border-radius:6px;"></div>
+</section>
+
+<section style="padding:80px 36px 0;background:#fff;text-align:center;position:relative;overflow:hidden;">
+  <div style="display:flex;justify-content:center;gap:80px;margin-bottom:60px;flex-wrap:wrap;">
+    <div style="text-align:center;">
+      <div style="width:90px;height:90px;background:#fff;border-radius:50%;box-shadow:0 8px 22px rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
+        <img src="/mnt/data/d4626682-3e33-4feb-ac7e-acfe7b02a742.png" style="width:40px;">
+      </div>
+      <h3 style="color:var(--dark);font-size:28px;margin:0;">500+</h3>
+      <p style="color:#0b6b72;margin:4px 0 0;font-size:18px;font-weight:600;">Tests Booked</p>
+    </div>
+
+    <div style="text-align:center;">
+      <div style="width:90px;height:90px;background:#fff;border-radius:50%;box-shadow:0 8px 22px rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
+        <img src="/mnt/data/d4626682-3e33-4feb-ac7e-acfe7b02a742.png" style="width:40px;">
+      </div>
+      <h3 style="color:var(--dark);font-size:28px;margin:0;">500+</h3>
+      <p style="color:#0b6b72;margin:4px 0 0;font-size:18px;font-weight:600;">Tests Booked</p>
+    </div>
+
+    <div style="text-align:center;">
+      <div style="width:90px;height:90px;background:#fff;border-radius:50%;box-shadow:0 8px 22px rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
+        <img src="/mnt/data/d4626682-3e33-4feb-ac7e-acfe7b02a742.png" style="width:40px;">
+      </div>
+      <h3 style="color:var(--dark);font-size:28px;margin:0;">500+</h3>
+      <p style="color:#0b6b72;margin:4px 0 0;font-size:18px;font-weight:600;">Tests Booked</p>
+    </div>
+
+    <div style="text-align:center;">
+      <div style="width:90px;height:90px;background:#fff;border-radius:50%;box-shadow:0 8px 22px rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
+        <img src="/mnt/data/d4626682-3e33-4feb-ac7e-acfe7b02a742.png" style="width:40px;">
+      </div>
+      <h3 style="color:var(--dark);font-size:28px;margin:0;">500+</h3>
+      <p style="color:#0b6b72;margin:4px 0 0;font-size:18px;font-weight:600;">Tests Booked</p>
+    </div>
+  </div>
+
+  <section style="background:var(--teal);padding:120px 36px 180px;margin-top:-40px;position:relative;overflow:hidden;">
+    <div style="max-width:700px;text-align:left;color:#fff;">
+      <h2 style="font-size:46px;font-weight:700;margin:0 0 10px;">Our App Is</h2>
+      <h2 style="font-size:56px;font-weight:800;margin:0 0 20px;">COMING SOON</h2>
+      <p style="font-size:18px;line-height:1.7;color:#e6f7f7;max-width:520px;">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.</p>
+    </div>
+    <img src="/mnt/data/d4626682-3e33-4feb-ac7e-acfe7b02a742.png" style="position:absolute;right:0;bottom:-60px;width:420px;transform:rotate(-18deg);filter:drop-shadow(0 10px 26px rgba(0,0,0,0.2));">
+  </section>
+</section>
+
+<section style="padding:80px 36px;background:#f8fefe;text-align:center;">
+  <div style="max-width:800px;margin:0 auto 40px;">
+    <div style="color:#6c6c6c;font-weight:700;margin-bottom:6px;">Book Now</div>
+    <h2 style="font-size:36px;font-weight:800;color:var(--dark);margin:0 0 20px;">Testing By Our Expert Lab Scientists</h2>
+    <p style="color:#555;font-size:17px;line-height:1.7;max-width:760px;margin:0 auto 30px;">
+      Bring to the table win-win survival strategies to ensure proactive domination and at the end of the day.
+    </p>
+    <button style="background:#0e8b93;color:#fff;padding:12px 26px;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;">Book Now</button>
+  </div>
+
+  <div style="background:#00d4a6;padding:40px 36px;border-radius:40px;max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:20px;">
+    <div style="color:#fff;font-size:22px;font-weight:700;">SUBSCRIBE TO OUR NEWSLETTER</div>
+    <div style="display:flex;width:460px;max-width:100%;">
+      <input type="email" placeholder="Enter Your Email Id" style="flex:1;padding:14px 18px;border:none;border-radius:8px 0 0 8px;font-size:16px;">
+      <button style="background:#0b6b72;color:#fff;padding:14px 26px;border:none;border-radius:0 8px 8px 0;font-size:16px;font-weight:600;cursor:pointer;">Subscribe</button>
+    </div>
+  </div>
+</section>
+
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <div style="font-size:40px;font-weight:800;color:#fff;margin-bottom:18px;">Book<span style="color:#00d4a6">Your</span>Lab</div>
+      <p style="color:rgba(255,255,255,0.9);line-height:1.6;">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+      <div style="margin-top:18px;display:flex;gap:10px;">
+        <div style="width:34px;height:34px;border-radius:50%;background:#00d4a6;display:flex;align-items:center;justify-content:center;">f</div>
+        <div style="width:34px;height:34px;border-radius:50%;background:#00d4a6;display:flex;align-items:center;justify-content:center;">t</div>
+        <div style="width:34px;height:34px;border-radius:50%;background:#00d4a6;display:flex;align-items:center;justify-content:center;">y</div>
+      </div>
+    </div>
+
+    <div>
+      <h4>Quick Links</h4>
+      <a href="#">Home</a>
+      <a href="#">About Us</a>
+      <a href="#">Career</a>
+      <a href="#">Contact Us</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms & Conditions</a>
+      <a href="#">Franchise</a>
+      <a href="#">Statutory Compliance</a>
+    </div>
+
+    <div>
+      <h4>Popular Packages</h4>
+      <a href="#">Molecular Diagnostics</a>
+      <a href="#">Molecular Hematology</a>
+      <a href="#">Microbiology</a>
+      <a href="#">Transfusion Medicine</a>
+      <a href="#">Molecular Diagnostics</a>
+      <a href="#">Molecular Hematology</a>
+      <a href="#">Microbiology</a>
+    </div>
+
+    <div>
+      <h4>Our Presence</h4>
+      <a href="#">Mumbai</a>
+      <a href="#">Delhi</a>
+      <a href="#">Agra</a>
+      <a href="#">Ahemdabad</a>
+      <a href="#">Ambala</a>
+      <a href="#">Kolkata</a>
+      <a href="#">Pune</a>
+    </div>
+  </div>
+
+  <div style="background:#dff2f4;padding:36px 0;margin-top:36px;">
+    <div style="max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;padding:0 18px;">
+      <div style="flex:1;text-align:center;min-width:200px;">
+        <img src="/mnt/data/9a429adc-1073-482a-9788-ebf374ef5e3f.png" style="width:72px;margin-bottom:8px;">
+        <h4 style="margin:6px 0;color:#0b6b72;">Reliable</h4>
+        <p style="color:#666;max-width:360px;margin:0 auto;">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+      </div>
+      <div style="flex:1;text-align:center;min-width:200px;">
+        <img src="/mnt/data/9a429adc-1073-482a-9788-ebf374ef5e3f.png" style="width:72px;margin-bottom:8px;">
+        <h4 style="margin:6px 0;color:#0b6b72;">Secure</h4>
+        <p style="color:#666;max-width:360px;margin:0 auto;">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+      </div>
+      <div style="flex:1;text-align:center;min-width:200px;">
+        <img src="/mnt/data/9a429adc-1073-482a-9788-ebf374ef5e3f.png" style="width:72px;margin-bottom:8px;">
+        <h4 style="margin:6px 0;color:#0b6b72;">Affordable</h4>
+        <p style="color:#666;max-width:360px;margin:0 auto;">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="border-top:4px solid rgba(0,0,0,0.06);margin-top:18px;padding:18px 0;text-align:center;color:#fff;">
+    © 2020 All Rights Reserved by Intermediq Tech Health Services Private Limited
+  </div>
+</footer>
+
+<div class="phone-bubble" title="Call us"></div>
+
+  <script>
+
+    document.querySelectorAll('.cta').forEach(c=>c.addEventListener('click',function(e){e.preventDefault();alert('CTA clicked - implement booking flow')}));
+
+    const newsletterForm = document.querySelector('section[style*="Subscribe to our newsletter"], .site-newsletter');
+    const subscribeButton = document.querySelector('button[style*="Subscribe"]');
+    if(subscribeButton){
+      subscribeButton.addEventListener('click',function(e){
+        const input = document.querySelector('input[type=email]');
+        if(input && input.value.trim().length>3){
+          alert('Thanks for subscribing: ' + input.value.trim());
+          input.value = '';
+        } else {
+          alert('Please enter a valid email address');
+        }
+      });
+    }
+
+    document.querySelectorAll('.pack-nav').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        const wrap = document.querySelector('.packs-wrap');
+        if(!wrap) return;
+        const delta = (btn.classList.contains('left') ? -1 : 1) * 320;
+        wrap.scrollBy({left:delta,behavior:'smooth'});
+      });
+    });
+
+    const pager = document.querySelector('.pager');
+    if(pager){
+      pager.addEventListener('click',function(){ alert('Pager clicked - implement paging') });
+    }
+
+
+    document.querySelectorAll('.habit-card, .habit-card *').forEach(()=>{});
+    document.querySelectorAll('[style*="Alcoholism"],[style*="Poor Nutrition"],[style*="Medicine Overuse"]').forEach(function(el){
+      el.addEventListener('click',function(){
+        alert('Clicked: ' + (el.innerText || el.textContent).trim().split('')[0]);
+      });
+    });
+  </script>
+</body>
+</html>
